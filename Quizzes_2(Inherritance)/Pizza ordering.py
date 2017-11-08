@@ -22,15 +22,16 @@ class AllIngredients:
         'artichokes': 5.0,
         'peperoni': 4.0,
         'salami': 6.5,
-        'pineapple': 10.0
-    }  # this dict includes all ingredients, which also
+        'pineapple': 10.0,
+        'ham': 13
 
+    }  # this dict includes all ingredients, which also
     # can be added to pizza as extra ingredient
 
     def print_all_ingredients(self):
         """
         Price list.
-        
+
         :return: list of all ingredients
         """
         a = ''
@@ -47,7 +48,7 @@ class Pizza:
                  cost=None, extra_ingredients=None):
         """
         Constructor.
-        
+
         Used to initialize ingredients, cost and extra ingredients
         :param ingredients: list of ingredients
         :param cost: cost of pizza
@@ -60,7 +61,7 @@ class Pizza:
     def get_ingredients(self):
         """
         Ingredients.
-        
+
         :return: list of pizza ingredients.
         """
         return self.ingredients
@@ -68,7 +69,7 @@ class Pizza:
     def get_extra_ingredients(self):
         """
         Extra ingredients.
-        
+
         :return: list of all pizza extra ingredients
         """
         for i in self.extra_ingredients:
@@ -80,9 +81,9 @@ class Pizza:
     def get_cost(self):
         """
         Cost.
-        
+
         Calculate summary cost of pizza and all extra ingredients.
-        :return: 
+        :return:
         """
         for i in range(len(self.extra_ingredients)):
             self.cost += \
@@ -104,6 +105,9 @@ class Pizza:
 
 
 class Margherita(Pizza):
+    """
+    This class for pizza Margherita.
+    """
     cost = 35.0
     ingredients = ['cheese', 'tomatoes', 'basil', 'olives']
 
@@ -112,6 +116,9 @@ class Margherita(Pizza):
 
 
 class Neapolitano(Pizza):
+    """
+    This class for pizza Neapolitano.
+    """
     cost = 50.0
     ingredients = ['parmesan', 'tomatoes', 'anchovies', 'basil', 'oregano']
 
@@ -120,6 +127,9 @@ class Neapolitano(Pizza):
 
 
 class Capricciosa(Pizza):
+    """
+    This class for pizza Capricciosa
+    """
     cost = 45.0
     ingredients = ['tomatoes', 'mozzarella', 'artichokes', 'olives']
 
@@ -128,6 +138,9 @@ class Capricciosa(Pizza):
 
 
 class Diavola(Pizza):
+    """
+    This class for pizza Diavola.
+    """
     cost = 40.0
     ingredients = ['peperoni', 'olives', 'salami', 'garlic']
 
@@ -136,6 +149,9 @@ class Diavola(Pizza):
 
 
 class Hawaii(Pizza):
+    """
+    This class for pizza Hawaii.
+    """
     cost = 47.0
     ingredients = ['pineapple', 'ham', 'basil', 'tomatoes']
 
@@ -144,6 +160,9 @@ class Hawaii(Pizza):
 
 
 class Marenara(Pizza):
+    """
+    This class for pizza Marenara.
+    """
     cost = 46.0
     ingredients = ['tomatoes', 'oregano', 'anchovies', 'garlic']
 
@@ -153,6 +172,9 @@ class Marenara(Pizza):
 
 
 class Pimaavera(Pizza):
+    """
+    This class for pizza Pimaavera.
+    """
     cost = 52.0
     ingredients = ['oregano', 'cheese', 'olives', 'tomatoes', 'anchovies']
 

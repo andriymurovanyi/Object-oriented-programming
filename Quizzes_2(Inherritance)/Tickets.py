@@ -38,7 +38,7 @@ class Ticket:
         Used to set a unique number and price.
         :param unique_number: unique ID of ticket
         :param price: price of ticket
-        :param category: category
+        :param coefficient: coefficient of preferential category
         """
         self._unique_number = unique_number
         self._price = price
@@ -61,15 +61,13 @@ class Ticket:
         return 'Ticket number: {}\n' \
                'Ticket price: {}'.format(self._unique_number, self._price)
 
-    def ticket_by_number(self):
+    def add_to_base(self):
         """
-        Information.
-        This method used to print information about ticket
-        :return: Unique number, Price, Ticket name
+        Add new key-value to data base
         """
-        self._price *= self._coefficient
-        return 'Unique number: ' + self._unique_number + '\n' + \
-               'Price: ' + str(self._price) + '\n'
+
+        TicketDataBase().all_tickets.update({'id: ' + str(self._unique_number):
+                                             'price: ' + str(self._price)})
 
 
 class TicketDataBase(Ticket):
@@ -80,14 +78,6 @@ class TicketDataBase(Ticket):
         for i in self.all_tickets.items():
             a += str(i) + '\n'
         return a
-
-    def add_to_base(self):
-        """
-        Add new key-value to data base
-        """
-
-        self.all_tickets.update({'id' + str(Ticket()._unique_number):
-                                 'price: ' + str(Ticket()._price)})
 
 
 class Advanced(Ticket):
@@ -131,56 +121,56 @@ def main():
     A main-function, which allows to test this class
     """
     while True:
-        my_file = open_file()['IT-events']
-        for i in my_file:
-            print(i)
-        choice = input('Choose the IT-event in list higher: ')
-
-        construct = input('Do you want add a new ticket ?[y/n]\n'
-                          '>>>')
-
-        price = my_file[choice]['price']
-        unique_number = 'id' + str(uuid4().hex)
-        print('There are following preferential categories on this event: ')
-        for i in my_file[choice]['categories']:
-            print('* ' + str(i))
-        category = input('Choose a category, to which you belong: ')
-        coefficient = my_file[choice]['categories'][category]
-        if construct == 'y':
-            unique_number_new = input('Choose a unique number for ticket: \n'
-                                      '>>> {}'.format('id'))
-            if 'id' + unique_number_new in TicketDataBase.all_tickets.keys():
-                print('This number already exist!\n')
-                continue
+        see = input('Do you want to print ticket by number ?[y/n]\n'
+                    '>>> ')
+        if see == 'y':
+            number = input('Input a number of ticket: \n'
+                           '>>> ')
+            if 'id: ' + number in TicketDataBase().all_tickets.keys():
+                print(ticket.ticket_as_string())
             else:
-                ticket = Ticket(unique_number_new, price, coefficient)
-                TicketDataBase().add_to_base()
+                print('This ticket is absent!')
+        elif see == 'n':
+            try:
+                my_file = open_file()['IT-events']
+                for i in my_file:
+                    print(i)
+                choice = input('Choose the IT-event in list higher: ')
+                print('There are following preferential categories on this event: ')
+                for i in my_file[choice]['categories']:
+                    print('* ' + str(i))
+                category = input('Choose a category, to which you belong: \n'
+                                 '>>> ')
+                coefficient = my_file[choice]['categories'][category]
+                price = my_file[choice]['price']
+                unique_number = str(uuid4().hex)
+                f = my_file[choice]['date']
+                date_of_event = datetime.date(datetime.strptime(f, '%d.%m.%y'))
+                date = input('Input a date, when you bought a '
+                             'ticket in [dd.mm.yy] format: \n'
+                             '>>> ').split('.')
+                day, month, year = int(date[0]), int(date[1]), int(date[2])
 
-                print('Your ticket successfully added! ')
-            see = input('Do you want to print ticket by number ?[y/n]')
-            if see == 'y':
-                print(ticket.ticket_by_number())
-        elif construct == 'n':
-            f = my_file[choice]['date']
-            date_of_event = datetime.date(datetime.strptime(f, '%d.%m.%y'))
-            print(date_of_event)
-            date = input('Input a date, when you bought a '
-                         'ticket in [dd.mm.yy] format: \n'
-                         '>>> ').split('.')
-            day, month, year = int(date[0]), int(date[1]), int(date[2])
+                date_of_purchase = datetime.date(datetime(year, month, day))
 
-            date_of_purchase = datetime.date(datetime(year, month, day))
+                day_delta = str(date_of_event -
+                                date_of_purchase).split()
 
-            day_delta = str(date_of_event -
-                            date_of_purchase).split()
-            # difference between day of event
-            # and day, when ticket
-            # was purchased .
+                # difference between day of event
+                # and day, when ticket
+                # was purchased .
+            except KeyError:
+                print('No such category!')
+                continue
+            except IndexError:
+                print('Invalid format of date!')
+                continue
 
             if int(day_delta[0]) >= 60:
                 ticket = Advanced(unique_number, price, coefficient)
             elif int(day_delta[0]) <= 10:
                 ticket = Late(unique_number, price, coefficient)
+            ticket.add_to_base()
 
             action = input('What you want to do? (see a list below)\n'
                            '<1 - ask a ticket price>\n'
@@ -192,10 +182,12 @@ def main():
                 print(ticket.ticket_as_string())
             else:
                 print('Please, make you\'re choice')
+        else:
+            print('Please, make you\'re choice!')
+            continue
 
         if input('Press <Enter> to continue work with program...') != '':
             break
-
 
 if __name__ == '__main__':
     main()

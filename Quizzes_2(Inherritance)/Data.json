@@ -1,0 +1,15 @@
+{
+"IT-events": {
+  "IT-Revolution": {
+    "date": "14.10.17",
+    "price": 450,
+    "categories": {"Student": 0.5, "Invalid": 0.35, "Pensioner": 0.3}
+  },
+  "Google-Hash-Code":{
+    "date": "14.10.17",
+    "price": 1000,
+    "categories": {"Student": 0.5, "Journalist": 0.2}
+  }
+}
+
+}
